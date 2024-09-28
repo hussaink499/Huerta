@@ -1,28 +1,33 @@
 import streamlit as st
-import pandas as pd
-from openai_integration.chatgpt_utils import chatgpt_response
-from auth.auth_utils import get_auth0_login_url
+from auth.auth_utils import get_auth0_login_url, handle_auth0_callback, get_logout_url
 
-# Load event dataset
-events_df = pd.read_csv('data/events.csv')
+def show_homepage():
+    st.title("Welcome to Huerta!")
+    st.write("You are logged in!")
 
-def main():
-    st.title("Huerta Event App")
+st.title("Login with Auth0")
 
-    menu = ["Login", "Find Events", "Chat with ChatGPT"]
-    choice = st.sidebar.selectbox("Menu", menu)
+# Handle the callback
+query_params = st.experimental_get_query_params()
+if 'code' in query_params:
+    code = query_params['code'][0]
+    url = st.experimental_get_query_params()
+    token = handle_auth0_callback(url)
+    st.session_state['token'] = token
+    # Clear query parameters and reload the page using JavaScript
+    st.experimental_set_query_params()
+    st.write("Redirecting...")
+    st.markdown('<meta http-equiv="refresh" content="0; url=/" />', unsafe_allow_html=True)
 
-    if choice == "Login":
-        login_url = get_auth0_login_url()
-        st.write(f"[Login here]({login_url})")
-    elif choice == "Find Events":
-        st.subheader("Browse Events")
-        st.write(events_df)
-    elif choice == "Chat with ChatGPT":
-        user_input = st.text_input("Tell ChatGPT what you're looking for:")
-        if user_input:
-            response = chatgpt_response(user_input, events_df)
-            st.write(response)
+# Check if the user is already logged in
+if 'token' not in st.session_state:
+    # Display the login link
+    login_url = get_auth0_login_url()
+    st.write(f"[Login]({login_url})")
+else:
+    # Display the homepage content
+    show_homepage()
+    # Display the logout link
+    logout_url = get_logout_url()
+    st.write(f"[Logout]({logout_url})")
 
-if __name__ == '__main__':
-    main()

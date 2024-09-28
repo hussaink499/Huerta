@@ -1,3 +1,6 @@
-event_id,event_name,event_date,location,description,category,price
-1,Women in Tech Networking,2024-09-30 10:00,Miami, FL,Join fellow women in tech,Networking,Free
-2,Yoga Workshop,2024-10-01 09:30,South Broward, FL,Relax and find balance,Health & Wellness,$10
+event_id,event_name,event_date,location,description,category,price,attendees
+1,Women in Tech Networking,2024-09-30 10:00,Miami, FL,Join fellow women in tech,Networking,Free,"[amy,jessica,lisa]"
+2,Yoga Workshop,2024-10-01 09:30,South Broward, FL,Relax and find balance,Health & Wellness,$10,"[danielle,mary]"
+3,Startup Pitch Night,2024-10-02 18:00,Miami, FL,Watch startups pitch their ideas,Networking,Free,"[amy,jessica,lisa]"
+4,Beach Cleanup,2024-10-05 08:00,Fort Lauderdale, FL,Help clean up the beach,Community Service,Free,"[lisa,sarah]"
+5,Food Truck Festival,2024-10-06 12:00,Miami, FL,Enjoy a variety of food trucks,Food & Drink,$5,"[amy,maria,sarah]"
