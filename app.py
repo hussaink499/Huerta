@@ -12,9 +12,13 @@ def main():
     menu = ["Login", "Find Events", "Chat with ChatGPT"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    input = st.text_input("What would you like to do?")
-    chat_output = chat(input)
-    st.write(chat_output)
+    user_input = st.text_input("Ask about events (e.g., 'Show me concerts in Miami')")
+
+    # this is primitive
+    if user_input:
+        chat_output = chat(user_input)
+        st.write(chat_output)
+
     # if choice == "Login":
     #     login_url = get_auth0_login_url()
     #     st.write(f"[Login here]({login_url})")
@@ -26,6 +30,13 @@ def main():
     #     if user_input:
     #         response = chatgpt_response(user_input, events_df)
     #         st.write(response)
+
+def find_events(user_query):
+    # get the event type
+    # get the location
+    # get the date
+
+    return 0
 
 if __name__ == '__main__':
     main()
