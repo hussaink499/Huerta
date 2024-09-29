@@ -1,3 +1,16 @@
-event_id,event_name,event_date,location,description,category,price
-1,Women in Tech Networking,2024-09-30 10:00,Miami, FL,Join fellow women in tech,Networking,Free
-2,Yoga Workshop,2024-10-01 09:30,South Broward, FL,Relax and find balance,Health & Wellness,$10
+event_id,event_name,event_date,event_time,location,description,category,price
+1,Women in Tech,2024-09-30,10:00,Miami,Join fellow women in tech,Networking,Free
+2,Yoga Workshop,2024-10-01,09:30,South Broward,Relax and find balance,Health & Wellness,$10
+3,Miata Meet,2024-08-08,11:00,Miami,Have fun and talk to fellow Miata fans or just car fans in general,Cars,Free
+4,Art Gallery Opening,2024-10-05,18:00,Fort Lauderdale,Explore local artists' work,Art,Free
+5,Digital Marketing Seminar,2024-10-10,14:00,Miami Beach,Learn about the latest trends in digital marketing,Networking,$20
+6,Coding Bootcamp,2024-10-15,09:00,Coral Gables,Intensive coding workshop for beginners,Education,$150
+7,Food Truck Festival,2024-10-20,12:00,Miami,Enjoy a variety of food trucks and live music,Food,$5
+8,Photography Walk,2024-10-25,07:00,Key Biscayne,Capture stunning sunrises with fellow photography enthusiasts,Photography,$15
+9,Startup Pitch Night,2024-10-30,17:30,Miami,Pitch your startup ideas to investors and get feedback,Networking,$25
+10,Beach Clean-Up,2024-11-05,08:00,Miami Beach,Join us in keeping our beaches clean and beautiful,Community Service,Free
+11,Local Farmers Market,2024-11-12,09:00,South Miami,Support local farmers and artisans,Farmers Market,Free
+12,Tech Career Fair,2024-11-15,10:00,Miami,Meet potential employers and learn about tech job opportunities,Networking,Free
+13,Music in the Park,2024-11-20,18:30,Coral Gables,Enjoy live music performances in a beautiful park,Music,Free
+14,Craft Beer Tasting,2024-11-25,17:00,Fort Lauderdale,Taste a variety of local craft beers,Food & Drink,$30
+15,Holiday Charity Gala,2024-12-01,19:00,Miami,Join us for an evening of fun and fundraising for a good cause,Charity,$100
