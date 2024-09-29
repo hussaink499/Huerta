@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-# from openai_integration.chatgpt_utils import chatgpt_response
-# from auth.auth_utils import get_auth0_login_url
 
 # Load event dataset
 events_df = pd.read_csv('data/events.csv')
@@ -13,7 +11,6 @@ def main():
 
     menu = ["Login", "Find Events", "Chat with ChatGPT"]
     choice = st.sidebar.selectbox("Menu", menu)
-
 
     # Sample data for people with similar interests
     people = [
@@ -32,7 +29,7 @@ def main():
         time_obj = datetime.strptime(time_str, "%H:%M")
         return time_obj.strftime("%I:%M %p")
 
-    # Styling
+    # Styling (added circular profile image styling)
     st.markdown(
         """
         <style>
@@ -62,6 +59,12 @@ def main():
             padding: 10px 0;  /* Padding inside buttons for height */
             font-size: 16px;  /* Set font size */
         }
+        .circle-img {
+            border-radius: 50%;  /* Make image circular */
+            width: 50px;  /* Set fixed width */
+            height: 50px;  /* Set fixed height */
+            object-fit: cover;  /* Maintain aspect ratio */
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -73,7 +76,8 @@ def main():
         for person in people:
             col1, col2 = st.columns([1, 3])  # Adjust proportions as needed
             with col1:
-                st.markdown(f'<img class="circle-img" src="{person["image"]}"/>', unsafe_allow_html=True)  # Display circular profile image
+                # Circular profile image
+                st.markdown(f'<img class="circle-img" src="{person["image"]}"/>', unsafe_allow_html=True)  
             with col2:
                 st.write(person['name'])  # Display person's name
                 st.write(f"**Interested in:** {person['interest']}")
@@ -81,58 +85,53 @@ def main():
                 if st.button(f"Connect with {person['name']}"):
                     st.success(f"Connection request sent to {person['name']}!")
 
-    # Main page
+    # Initialize session state for selected event and show_all_events
+    if 'selected_event' not in st.session_state:
+        st.session_state.selected_event = None
     if 'show_all_events' not in st.session_state:
         st.session_state.show_all_events = False
 
-    # Display top 3 events
-    st.markdown('<h2 class="custom-subheader">Top Events</h2>', unsafe_allow_html=True)
-    cols = st.columns(3)  # Create 3 columns for top events
-    for i, event in enumerate(events[:3]):  # Display only the top 3 events
-        with cols[i]:
-            st.markdown(f"<span class='location'>Location: {event['location']}</span>", unsafe_allow_html=True)  # Highlighted location
-            st.image("https://via.placeholder.com/150", caption=event['event_name'])  # Placeholder image
-            st.write(f"**Date:** {format_date(event['event_date'])}")
-            st.write(f"**Time:** {format_time(event['event_time'])}")
-            if st.button(f"View Event", key=f"view_event_{i}"):
-                st.session_state.selected_event = event  # Set the selected event
+    # Display event details if an event is selected
+    if st.session_state.selected_event is not None:
+        event = st.session_state.selected_event
+        st.image("https://via.placeholder.com/150", caption=event['event_name'])  # Placeholder image
+        # Display description first
+        st.write(f"**Description:** {event['description']}")
+        # Display combined date, time, and location at the bottom
+        st.write(f"The event is on {format_date(event['event_date'])} at {format_time(event['event_time'])} in {event['location']}.")
+        if st.button("Close Event"):
+            st.session_state.selected_event = None  # Reset the selected event when the button is clicked
+    else:
+        # Display top 3 events
+        st.markdown('<h2 class="custom-subheader">Top Events</h2>', unsafe_allow_html=True)
+        cols = st.columns(3)  # Create 3 columns for top events
+        for i, event in enumerate(events[:3]):  # Display only the top 3 events
+            with cols[i]:
+                st.markdown(f"<span class='location'>Location: {event['location']}</span>", unsafe_allow_html=True)  # Highlighted location
+                st.image("https://via.placeholder.com/150", caption=event['event_name'])  # Placeholder image
+                st.write(f"**Date:** {format_date(event['event_date'])}")
+                st.write(f"**Time:** {format_time(event['event_time'])}")
+                if st.button(f"View Event", key=f"view_event_{i}"):
+                    st.session_state.selected_event = event  # Set the selected event
 
-    # Button to view all events
-    if st.button("View All Events"):
-        st.session_state.show_all_events = True
+        # Button to view all events
+        if st.button("View All Events"):
+            st.session_state.show_all_events = True
 
-    # If the user has clicked to view all events
-    if st.session_state.show_all_events:
-        st.markdown('<h2 class="custom-subheader">All Events</h2>', unsafe_allow_html=True)
-        for event in events:
-            st.markdown(f"<span class='location'>Location: {event['location']}</span>", unsafe_allow_html=True)  # Highlighted location
-            st.image("https://via.placeholder.com/150", caption=event['event_name'])  # Placeholder image
-            st.write(f"**Date:** {format_date(event['event_date'])}")
-            st.write(f"**Time:** {format_time(event['event_time'])}")
-            st.write(f"**Description:** {event['description']}")
-            st.write("---")  # Divider between events
+        # If the user has clicked to view all events
+        if st.session_state.show_all_events:
+            st.markdown('<h2 class="custom-subheader">All Events</h2>', unsafe_allow_html=True)
+            for event in events:
+                st.markdown(f"<span class='location'>Location: {event['location']}</span>", unsafe_allow_html=True)  # Highlighted location
+                st.image("https://via.placeholder.com/150", caption=event['event_name'])  # Placeholder image
+                st.write(f"**Date:** {format_date(event['event_date'])}")
+                st.write(f"**Time:** {format_time(event['event_time'])}")
+                st.write(f"**Description:** {event['description']}")
+                st.write("---")  # Divider between events
 
-        # Button to close the events
-        if st.button("Close Events"):
-            st.session_state.show_all_events = False  # Reset the view
-
-
-    # if choice == "Login":
-    #     login_url = get_auth0_login_url()
-    #     st.write(f"[Login here]({login_url})")
-    # elif choice == "Find Events":
-    #     st.subheader("Browse Events")
-    #     st.write(events_df)
-    # elif choice == "Chat with ChatGPT":
-    #     user_input = st.text_input("Tell ChatGPT what you're looking for:")
-    #     if user_input:
-    #         response = chatgpt_response(user_input, events_df)
-    #         st.write(response)
+            # Button to close the events
+            if st.button("Close Events"):
+                st.session_state.show_all_events = False  # Reset the view
 
 if __name__ == '__main__':
     main()
-
-# Load events data from CSV
-@st.cache_data
-def load_events():
-    return pd.read_csv('events.csv')
