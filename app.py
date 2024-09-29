@@ -7,7 +7,7 @@ events_df = pd.read_csv('data/events.csv')
 events = events_df.to_dict(orient='records')
 
 def main():
-    st.title("Huerta Event App")
+    st.title("</Re>vuelta")
 
     menu = ["Login", "Find Events", "Chat with ChatGPT"]
     choice = st.sidebar.selectbox("Menu", menu)
